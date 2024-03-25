@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h3>BUTTON</h3>
     <span class="br-divider my-3"></span>
 
@@ -7,7 +7,7 @@
       <br-button emphasis="primary" class="mb-3" :active="isActive" block
         >Primário Active Block</br-button
       >
-      <br-button emphasis="primary" class="mb-3" density="large"
+      <br-button emphasis="primary" class="mb-3" density="small"
         >Primário Density Large</br-button
       >
       <br-button emphasis="secondary" class="mb-3" disabled
@@ -22,17 +22,43 @@
 
     <h3>INPUT</h3>
     <span class="br-divider my-3"></span>
-    <div class="col-sm-8 col-lg-5">
-      <br-input
-        v-model="inputValue"
-        button
-        density="large"
-        inline
-        label="Label / Rótulo"
-        placeholder="Digite algo"
-        @input="handleInputChange"
-      ></br-input>
-      <p>O valor digitado é: {{ inputValue }}</p>
+    <div>
+      <div class="p-3x col-sm-8 col-lg-5">
+        <br-input
+          button
+          density="small"
+          type="date"
+          id="datemax"
+          name="datemax"
+          label="Data"
+          placeholder="Digite algo"
+        ></br-input>
+      </div>
+      <div class="p-3x col-sm-8 col-lg-5">
+        <br-input
+          button
+          type="range"
+          density="small"
+          id="tamanho"
+          name="tamanho"
+          maxlength="10"
+          minlength="2"
+          label="Label"
+          placeholder="Digite algo"
+        ></br-input>
+      </div>
+      <div class="p-3x">
+        <br-input
+          button
+          density="large"
+          min="10"
+          max="20"
+          label="Label / Rótulo"
+          placeholder="Digite algo"
+          @input="handleInputChange"
+        ></br-input>
+        <p>O valor digitado é: {{ inputValue }}</p>
+      </div>
     </div>
 
     <h3>CHECKBOX</h3>
@@ -62,18 +88,18 @@
 
     <h3>LIST</h3>
     <span class="br-divider my-3"></span>
-    <br-list title="Lista vertical" density="small"
+    <br-list title="Lista vertical" density="large" horizontal
       ><br-item title="Item 1"
         ><br-list
-          ><br-item>Subitem 1.1</br-item><br-item>Subitem 1.2</br-item
-          ><br-item>Subitem 1.3</br-item></br-list
+          ><br-item active>Subitem 1.1</br-item><br-item>Subitem 1.2</br-item
+          ><br-item disabled>Subitem 1.3</br-item></br-list
         ></br-item
       ><br-item title="Item 2"
         ><br-list><br-item>Detalhes do item 2</br-item></br-list></br-item
       ><br-item title="Item 3"
         ><br-list> Mais detalhes sobre o item 3 </br-list></br-item
       ><br-item title="Item 4"
-        ><br-list> Mais detalhes sobre o item 4 </br-list></br-item
+        ><br-list selected> Mais detalhes sobre o item 4 </br-list></br-item
       ></br-list
     >
 
@@ -97,11 +123,12 @@
         id="name"
         autofocus
         autocomplete
+        required
         name="name"
         label="Nome:"
         placeholder="Digite seu nome"
         :value="itemName"
-        :invalid="!itemName"
+        :danger="!itemName && formSubmitted"
         @input="itemName = $event.target.value"
       ></br-input>
       <span v-if="!itemName && formSubmitted" class="error"
@@ -111,10 +138,12 @@
 
     <div class="p-3x">
       <br-input
+        required
         id="email"
         name="email"
         type="email"
         label="E-mail:"
+        :danger="!itemEmail && formSubmitted"
         :value="itemEmail"
         @input="itemEmail = $event.target.value"
       ></br-input>
@@ -130,6 +159,7 @@
           :name="option.name"
           :value="option.value"
           :id="option.id"
+          invalid
           :checked="itemOpcao === option.value"
           @checked-change="itemOpcao === option.value"
         ></br-radio>
@@ -138,23 +168,27 @@
 
     <div class="p-3x">
       <br-textarea
+        required
         id="message"
         name="message"
         label="Mensagem:"
         :value="itemMessage"
         @input="itemMessage = $event.target.value"
       ></br-textarea>
-      <span v-if="!itemMessage && formSubmitted" class="error"
-        >Favor inserir sua mensagem.</span
-      >
     </div>
 
-    <br-checkbox
-      class="p-3x"
-      name="termosAceitos"
-      label="Aceito os termos e condições"
-      @input="termosAceitos = !termosAceitos"
-    ></br-checkbox>
+    <div class="p-4x">
+      <br-checkbox
+        required
+        name="termosAceitos"
+        label="Aceito os termos e condições"
+        @input="termosAceitos = !termosAceitos"
+        :invalid="!termosAceitos && formSubmitted"
+      ></br-checkbox>
+      <span v-if="!termosAceitos && formSubmitted" class="error"
+        >Você deve aceitar os termos para prosseguir.</span
+      >
+    </div>
 
     <br-button class="p-3x" emphasis="primary" @click="submitForm()"
       >Enviar</br-button
@@ -181,42 +215,42 @@
 
 <script>
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       isActive: true,
-      inputValue: '',
+      inputValue: "",
       checkboxes: [
         {
-          label: 'Unchecked',
+          label: "Unchecked",
           checked: false,
           valid: false,
           invalid: false,
           disabled: false,
         },
         {
-          label: 'Checked',
+          label: "Checked",
           checked: true,
           valid: false,
           invalid: false,
           disabled: false,
         },
         {
-          label: 'Valid',
+          label: "Valid",
           checked: false,
           valid: true,
           invalid: false,
           disabled: false,
         },
         {
-          label: 'Invalid',
+          label: "Invalid",
           checked: false,
           valid: false,
           invalid: true,
           disabled: false,
         },
         {
-          label: 'Disabled',
+          label: "Disabled",
           checked: false,
           valid: false,
           invalid: false,
@@ -225,14 +259,14 @@ export default {
       ],
       checkedList: [],
       options: [
-        { id: 'teste1', name: 'opcao', label: 'Opção 1', value: 'opcao1' },
-        { id: 'teste2', name: 'opcao', label: 'Opção 2', value: 'opcao2' },
-        { id: 'teste3', name: 'opcao', label: 'Opção 3', value: 'opcao3' },
+        { id: "teste1", name: "opcao", label: "Opção 1", value: "opcao1" },
+        { id: "teste2", name: "opcao", label: "Opção 2", value: "opcao2" },
+        { id: "teste3", name: "opcao", label: "Opção 3", value: "opcao3" },
       ],
-      itemName: '',
-      itemEmail: '',
-      itemOpcao: '',
-      itemMessage: '',
+      itemName: "",
+      itemEmail: "",
+      itemOpcao: "",
+      itemMessage: "",
       termosAceitos: false,
       formData: [], // Array para armazenar os dados do formulário
       // formData: {
@@ -259,10 +293,9 @@ export default {
     },
     checkFormCompleted() {
       return (
-        this.itemName !== '' &&
-        this.itemEmail !== '' &&
-        this.itemOpcao !== '' &&
-        this.itemMessage !== '' &&
+        this.itemName !== "" &&
+        this.itemEmail !== "" &&
+        this.itemOpcao !== "" &&
         this.termosAceitos
       );
     },
@@ -280,7 +313,7 @@ export default {
           });
           this.formSubmitted = true;
         } else {
-          alert('Favor preencher todos os campos do formulário!');
+          alert("Favor preencher todos os campos obrigatórios do formulário!");
         }
       } catch (error) {
         alert(error.message);
@@ -290,6 +323,9 @@ export default {
 };
 </script>
 <style>
+h3 {
+  background-color: paleturquoise;
+}
 .custom-button {
   color: purple;
   padding: 10px 20px;
