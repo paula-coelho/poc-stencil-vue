@@ -114,91 +114,92 @@
       ></br-textarea>
     </div>
   </div>
-  <div class="border-solid-lg m-10x">
-    <h1>Formulário Simples</h1>
-    <span class="br-divider my-3"></span>
+  <form @submit.prevent="submitForm">
+    <div class="border-solid-lg m-10x">
+      <h1>Formulário Simples</h1>
+      <span class="br-divider my-3"></span>
 
-    <div class="p-3x">
-      <br-input
-        id="name"
-        autofocus
-        autocomplete
-        required
-        name="name"
-        label="Nome:"
-        placeholder="Digite seu nome"
-        :value="itemName"
-        :danger="!itemName && formSubmitted"
-        @input="itemName = $event.target.value"
-      ></br-input>
-      <span v-if="!itemName && formSubmitted" class="error"
-        >Favor inserir seu nome.</span
+      <div class="p-3x">
+        <br-input
+          id="name"
+          autofocus
+          autocomplete
+          required
+          name="name"
+          label="Nome:"
+          placeholder="Digite seu nome"
+          :value="itemName"
+          :danger="!itemName && formSubmitted"
+          @input="itemName = $event.target.value"
+        ></br-input>
+        <span v-if="!itemName && formSubmitted" class="error"
+          >Favor inserir seu nome.</span
+        >
+      </div>
+
+      <div class="p-3x">
+        <br-input
+          required
+          id="email"
+          name="email"
+          type="email"
+          label="E-mail:"
+          :danger="!itemEmail && formSubmitted"
+          :value="itemEmail"
+          @input="itemEmail = $event.target.value"
+        ></br-input>
+        <span v-if="!itemEmail && formSubmitted" class="error"
+          >Favor inserir seu e-mail.</span
+        >
+      </div>
+
+      <br-list title="Escolha uma opção" class="p-3x">
+        <br-item v-for="option in options" :key="option.id">
+          <br-radio
+            :label="option.label"
+            :name="option.name"
+            :value="option.value"
+            :id="option.id"
+            invalid
+            :checked="itemOpcao === option.value"
+            @checked-change="itemOpcao === option.value"
+          ></br-radio>
+        </br-item>
+      </br-list>
+
+      <div class="p-3x">
+        <br-textarea
+          required
+          id="message"
+          name="message"
+          label="Mensagem:"
+          :value="itemMessage"
+          @input="itemMessage = $event.target.value"
+        ></br-textarea>
+      </div>
+
+      <div class="p-4x">
+        <br-checkbox
+          required
+          name="termosAceitos"
+          label="Aceito os termos e condições"
+          @input="termosAceitos = !termosAceitos"
+          :invalid="!termosAceitos && formSubmitted"
+        ></br-checkbox>
+        <span v-if="!termosAceitos && formSubmitted" class="error"
+          >Você deve aceitar os termos para prosseguir.</span
+        >
+      </div>
+
+      <br-button class="p-3x" emphasis="primary" type="submit"
+        >Enviar</br-button
       >
+
+      <div v-if="formSubmitted" class="success-message">
+        O formulário foi enviado com sucesso!
+      </div>
     </div>
-
-    <div class="p-3x">
-      <br-input
-        required
-        id="email"
-        name="email"
-        type="email"
-        label="E-mail:"
-        :danger="!itemEmail && formSubmitted"
-        :value="itemEmail"
-        @input="itemEmail = $event.target.value"
-      ></br-input>
-      <span v-if="!itemEmail && formSubmitted" class="error"
-        >Favor inserir seu e-mail.</span
-      >
-    </div>
-
-    <br-list title="Escolha uma opção" class="p-3x">
-      <br-item v-for="option in options" :key="option.id">
-        <br-radio
-          :label="option.label"
-          :name="option.name"
-          :value="option.value"
-          :id="option.id"
-          invalid
-          :checked="itemOpcao === option.value"
-          @checked-change="itemOpcao === option.value"
-        ></br-radio>
-      </br-item>
-    </br-list>
-
-    <div class="p-3x">
-      <br-textarea
-        required
-        id="message"
-        name="message"
-        label="Mensagem:"
-        :value="itemMessage"
-        @input="itemMessage = $event.target.value"
-      ></br-textarea>
-    </div>
-
-    <div class="p-4x">
-      <br-checkbox
-        required
-        name="termosAceitos"
-        label="Aceito os termos e condições"
-        @input="termosAceitos = !termosAceitos"
-        :invalid="!termosAceitos && formSubmitted"
-      ></br-checkbox>
-      <span v-if="!termosAceitos && formSubmitted" class="error"
-        >Você deve aceitar os termos para prosseguir.</span
-      >
-    </div>
-
-    <br-button class="p-3x" emphasis="primary" @click="submitForm()"
-      >Enviar</br-button
-    >
-
-    <div v-if="formSubmitted" class="success-message">
-      O formulário foi enviado com sucesso!
-    </div>
-  </div>
-
+  </form>
   <div v-if="formSubmitted">
     <h3>Dados enviados do Formulário:</h3>
     <ul>
