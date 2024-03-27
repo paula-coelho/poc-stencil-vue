@@ -302,6 +302,7 @@ export default {
     },
     submitForm() {
       console.log(this.itemOpcao);
+      console.log("O formulário foi enviado.");
       try {
         if (this.checkFormCompleted) {
           console.log(this.formData);
