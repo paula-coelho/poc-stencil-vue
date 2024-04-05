@@ -6,6 +6,8 @@ import ListTest from './components/ListTest.vue';
 import RadiobuttonTest from './components/RadiobuttonTest.vue';
 import TextareaTest from './components/TextareaTest.vue';
 import FormTest from './components/FormTest.vue';
+import CreateItem from './components/CreateItem.vue';
+import ListItems from './components/ListItems.vue';
 
 const routes = [
   { path: '/button', component: ButtonTest },
@@ -14,8 +16,9 @@ const routes = [
   { path: '/list', component: ListTest },
   { path: '/radiobutton', component: RadiobuttonTest },
   { path: '/textarea', component: TextareaTest },
- 
   { path: '/form', component: FormTest },
+  { path: '/createitem', component: CreateItem },
+  { path: '/listitems', component: ListItems },
 ];
 
 const router = createRouter({

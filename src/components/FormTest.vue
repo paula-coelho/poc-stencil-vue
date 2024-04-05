@@ -122,14 +122,16 @@ export default {
   methods: {
     checkFormCompleted() {
       return (
-        this.itemName !== "" && this.itemEmail !== "" && this.termosAceitos
+        this.itemName !== "" &&
+        this.itemEmail !== "" &&
+        this.termosAceitos !== false
       );
     },
     submitForm() {
-      console.log(this.itemOpcao);
-      console.log("O formulário foi enviado.");
+      this.formSubmitted = true;
       if (this.checkFormCompleted) {
         console.log(this.formData);
+        console.log("O formulário foi enviado.");
         this.formData.push({
           name: this.itemName,
           email: this.itemEmail,
@@ -137,6 +139,8 @@ export default {
           termosAceitos: this.termosAceitos,
         });
         this.formSubmitted = true;
+      } else {
+        this.formSubmitted = false;
       }
     },
   },

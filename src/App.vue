@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-sm-1">
+      <div class="col-sm-3">
         <nav>
           <br-list>
             <div class="br-item" type="button">
@@ -24,6 +24,12 @@
             </div>
             <div class="br-item" type="button">
               <router-link to="/form">Formulário</router-link>
+            </div>
+            <div class="br-item" type="button">
+              <router-link to="/createitem">Criar Item Lista</router-link>
+            </div>
+            <div class="br-item" type="button">
+              <router-link to="/listitems">Listar Itens</router-link>
             </div>
           </br-list>
         </nav>
